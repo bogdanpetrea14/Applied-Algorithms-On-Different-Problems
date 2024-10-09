@@ -30,27 +30,30 @@ clean:
 	rm -f $(TARGETS) $(OUT_DIR)/*.class $(ARCHIVE)
 
 pack:
-	find $(SRC_DIR) -regex ".*\.\(cpp\|h\|hpp\|java\)" -exec zip $(ARCHIVE) {} +
-	zip $(ARCHIVE) Makefile
-	zip $(ARCHIVE) README.md
-	@echo $(ARCHIVE)
+	@find $(SRC_DIR) \
+		\( -path "./_utils/*" -prune \) -o \
+		-regex ".*\.\(cpp\|h\|hpp\|java\)" -exec zip $(ARCHIVE) {} +
+	@zip $(ARCHIVE) Makefile
+	@[ -f README.md ] && zip $(ARCHIVE) README.md || echo "Nu uita de README.md!"
+	@echo
+	@echo "Am creat $(ARCHIVE)"
+	@echo "Dacă vezi fișiere în plus/minus, modifică manual arhiva."
+	@echo
+	unzip -l $(ARCHIVE)
 
 
 # TODO: Apelați soluția fiecărei probleme. Puteți completa o regulă așa:
 # Pentru C++
 #	$(OUT_DIR)/<nume_problemă>
 # Pentru Java
-#	java -cp $(OUT_DIR) <NumeProblemă>
-run-p1: 
-	$(OUT_DIR)/servere
-run-p2: 
-	$(OUT_DIR)/colorare
-run-p3: 
-	$(OUT_DIR)/compresie
-run-p4: 
-	$(OUT_DIR)/criptat
-run-p5: 
-	$(OUT_DIR)/oferta
+#	java -Xss2m -cp $(OUT_DIR) <NumeProblemă>
+run-p1:
+	$(OUT_DIR)/numarare
+run-p2:
+	$(OUT_DIR)/trenuri
+run-p3:
+	$(OUT_DIR)/drumuri
+run-p4:
 
 
 # Reguli pentru compilare. Probabil nu e nevoie să le modificați.
